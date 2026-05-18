@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     const eventRecord = await WebhookEvent.findOneAndUpdate(
       { eventId },
       { $setOnInsert: { eventId, status: 'PROCESSED', processedAt: new Date() } },
-      { upsert: true, new: false } // new: false means it returns the OLD document if it existed
+      { upsert: true, returnDocument: 'before' } // returnDocument: 'before' means it returns the OLD document if it existed
     );
 
     // If eventRecord is NOT null, it means the document already existed, so we've already processed this.

@@ -77,7 +77,7 @@ export async function distributeLead(
           $expr: { $lt: ['$usedQuota', '$monthlyQuota'] } 
         },
         { $inc: { usedQuota: 1 } },
-        { new: true, session }
+        { returnDocument: 'after', session }
       );
 
       if (provider) {
@@ -102,7 +102,7 @@ export async function distributeLead(
       const allocationState = await AllocationState.findOneAndUpdate(
         { serviceId: service._id },
         { $inc: { currentIndex: 1 } },
-        { new: true, upsert: true, session }
+        { returnDocument: 'after', upsert: true, session }
       );
 
       const startIndex = allocationState!.currentIndex;

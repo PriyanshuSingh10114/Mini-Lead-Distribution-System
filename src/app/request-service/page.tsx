@@ -32,7 +32,11 @@ export default function RequestServicePage() {
     fetch("/api/services")
       .then((res) => res.json())
       .then((data) => {
-        setServices(data);
+        if (Array.isArray(data)) {
+          setServices(data);
+        } else {
+          console.error("Failed to load services:", data.error);
+        }
         setLoading(false);
       })
       .catch((err) => {
